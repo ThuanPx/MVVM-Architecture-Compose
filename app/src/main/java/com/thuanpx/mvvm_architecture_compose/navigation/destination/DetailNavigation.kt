@@ -6,17 +6,19 @@ import androidx.navigation.compose.composable
 import com.thuanpx.mvvm_architecture_compose.feature.detail.DetailRoute
 
 /**
- * Created by ThuanPx on 5/20/22.
+ * Created by ThuanPx on 5/28/22.
  */
 
-object SearchDestination: NavigationDestination {
-    override val route: String = "search"
-    override val destination: String = "search_destination"
+object DetailDestination: NavigationDestination {
+    override val route: String
+        get() = "detail"
+    override val destination: String
+        get() = "detail_destination"
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.searchGraph() {
-    composable(route = SearchDestination.route) {
+fun NavGraphBuilder.detailGraph() {
+    composable(route = DetailDestination.route) {
         DetailRoute()
     }
 }

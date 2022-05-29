@@ -1,32 +1,18 @@
-/*
- * Copyright 2022 The Android Open Source Project
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package com.thuanpx.mvvm_architecture_compose.navigation
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Home
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material.icons.outlined.Star
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import com.thuanpx.mvvm_architecture_compose.R
 import com.thuanpx.mvvm_architecture_compose.navigation.destination.HomeDestination
-import com.thuanpx.mvvm_architecture_compose.navigation.destination.SearchDestination
+import com.thuanpx.mvvm_architecture_compose.navigation.destination.FavoriteDestination
 
 /**
  * Routes for the different top level destinations in the application. Each of these destinations
@@ -71,9 +57,9 @@ val TOP_LEVEL_DESTINATIONS = listOf(
         iconTextId = R.string.home
     ),
     TopLevelDestination(
-        route = SearchDestination.route,
-        selectedIcon = Icons.Filled.Search,
-        unselectedIcon = Icons.Outlined.Search,
-        iconTextId = R.string.search
+        route = FavoriteDestination.route,
+        selectedIcon = Icons.Filled.Star,
+        unselectedIcon = Icons.Outlined.Star,
+        iconTextId = R.string.favorite
     )
 )

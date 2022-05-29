@@ -5,10 +5,11 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.thuanpx.mvvm_architecture_compose.navigation.destination.DetailDestination
 import com.thuanpx.mvvm_architecture_compose.navigation.destination.HomeDestination
-import com.thuanpx.mvvm_architecture_compose.navigation.destination.SearchDestination
+import com.thuanpx.mvvm_architecture_compose.navigation.destination.detailGraph
 import com.thuanpx.mvvm_architecture_compose.navigation.destination.homeGraph
-import com.thuanpx.mvvm_architecture_compose.navigation.destination.searchGraph
+import com.thuanpx.mvvm_architecture_compose.navigation.destination.favoriteGraph
 
 /**
  * Top-level navigation graph. Navigation is organized as explained at
@@ -28,7 +29,12 @@ fun AppNavHost(
         startDestination = startDestination,
         modifier = modifier,
     ) {
-        homeGraph()
-        searchGraph()
+        homeGraph(
+            onClickPokemonCard = {
+                navController.navigate(DetailDestination.route)
+            }
+        )
+        favoriteGraph()
+        detailGraph()
     }
 }

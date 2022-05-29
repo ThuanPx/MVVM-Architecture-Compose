@@ -77,7 +77,7 @@ android {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = "1.2.0-beta02"
     }
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
@@ -87,23 +87,33 @@ android {
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
     implementation("androidx.core:core-ktx:1.7.0")
-    implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation ("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
+    implementation("androidx.activity:activity-compose:1.4.0")
 
     // Compose
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
+
     implementation("androidx.compose.runtime:runtime:1.2.0-beta02")
     implementation("androidx.compose.runtime:runtime-livedata:1.2.0-beta02")
-    implementation ("androidx.compose.ui:ui:1.1.1")
-    implementation ("androidx.compose.ui:ui-tooling-preview:1.1.1")
-    debugImplementation ("androidx.compose.ui:ui-tooling:1.1.1")
-    debugImplementation ("androidx.compose.ui:ui-test-manifest:1.1.1")
+
+    implementation("androidx.compose.animation:animation:1.2.0-beta02")
+
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation("androidx.compose.ui:ui:1.2.0-beta02")
+    implementation("androidx.compose.ui:ui-util:1.2.0-beta02")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-beta02")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.2.0-beta02")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0-beta02")
+
     implementation("androidx.compose.foundation:foundation:1.2.0-beta02")
+    implementation("androidx.compose.foundation:foundation-layout:1.2.0-beta02")
     // Material
-    implementation ("androidx.compose.material3:material3:1.0.0-alpha12")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha12")
     implementation("com.google.android.material:material:1.7.0-alpha02")
     // Navigation
-    implementation ("androidx.navigation:navigation-compose:2.4.2")
+    implementation("androidx.navigation:navigation-compose:2.4.2")
 
     // Coil
     implementation("io.coil-kt:coil-compose:2.1.0")

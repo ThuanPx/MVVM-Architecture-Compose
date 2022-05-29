@@ -19,20 +19,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.AppTheme
 import com.thuanpx.mvvm_architecture_compose.navigation.AppNavHost
-import com.thuanpx.mvvm_architecture_compose.navigation.AppTopLevelNavigation
 import com.thuanpx.mvvm_architecture_compose.navigation.TOP_LEVEL_DESTINATIONS
 import com.thuanpx.mvvm_architecture_compose.navigation.TopLevelDestination
 
@@ -44,23 +37,19 @@ import com.thuanpx.mvvm_architecture_compose.navigation.TopLevelDestination
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 fun MyApp() {
     AppTheme {
-        val navController = rememberNavController()
-        val appTopLevelNavigation = remember(navController) {
-            AppTopLevelNavigation(navController)
-        }
-
-        val navBackStackEntry by navController.currentBackStackEntryAsState()
-        val currentDestination = navBackStackEntry?.destination
+        val appStateManager = rememberAppStateManager()
 
         AppBackground {
             Scaffold(
                 containerColor = Color.Transparent,
                 contentColor = MaterialTheme.colorScheme.onBackground,
                 bottomBar = {
-                    AppBottomBar(
-                        onNavigateToTopLevelDestination = appTopLevelNavigation::navigateTo,
-                        currentDestination = currentDestination
-                    )
+                    if (appStateManager.shouldShowBottomBar) {
+                        AppBottomBar(
+                            navigateToRoute = appStateManager.appTopLevelNavigation::navigateTo,
+                            currentRoute = appStateManager.currentRoute
+                        )
+                    }
                 }
             ) {
                 Row(
@@ -73,7 +62,7 @@ fun MyApp() {
                         )
                 ) {
                     AppNavHost(
-                        navController = navController,
+                        navController = appStateManager.navController,
                         modifier = Modifier
                             .padding(it)
                             .consumedWindowInsets(it)
@@ -86,8 +75,8 @@ fun MyApp() {
 
 @Composable
 private fun AppBottomBar(
-    onNavigateToTopLevelDestination: (TopLevelDestination) -> Unit,
-    currentDestination: NavDestination?
+    navigateToRoute: (TopLevelDestination) -> Unit,
+    currentRoute: String
 ) {
     // Wrap the navigation bar in a surface so the color behind the system
     // navigation is equal to the container color of the navigation bar.
@@ -101,11 +90,10 @@ private fun AppBottomBar(
             tonalElevation = 0.dp
         ) {
             TOP_LEVEL_DESTINATIONS.forEach { destination ->
-                val selected =
-                    currentDestination?.hierarchy?.any { it.route == destination.route } == true
+                val selected = destination.route == currentRoute
                 NavigationBarItem(
                     selected = selected,
-                    onClick = { onNavigateToTopLevelDestination(destination) },
+                    onClick = { navigateToRoute(destination) },
                     icon = {
                         Icon(
                             if (selected) {

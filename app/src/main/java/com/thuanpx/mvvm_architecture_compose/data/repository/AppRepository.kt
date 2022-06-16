@@ -1,7 +1,8 @@
 package com.thuanpx.mvvm_architecture_compose.data.repository
 
 import com.thuanpx.mvvm_architecture_compose.data.remote.api.ApiService
-import com.thuanpx.mvvm_architecture_compose.di.IoDispatcher
+import com.thuanpx.mvvm_architecture_compose.di.AppDispatchers
+import com.thuanpx.mvvm_architecture_compose.di.Dispatcher
 import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
 import com.thuanpx.mvvm_architecture_compose.model.entity.PokemonInfo
 import com.thuanpx.mvvm_architecture_compose.model.response.BaseResponse
@@ -23,7 +24,7 @@ interface AppRepository {
 
 class DefaultAppRepository @Inject constructor(
     private val apiService: ApiService,
-    @IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : AppRepository {
 
     override fun fetchPokemon(page: Int): Flow<BaseResponse<List<Pokemon>>> {

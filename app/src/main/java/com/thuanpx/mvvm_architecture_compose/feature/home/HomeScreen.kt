@@ -2,24 +2,23 @@
 
 package com.thuanpx.mvvm_architecture_compose.feature.home
 
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
-import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppErrorAlertDialog
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
-import com.thuanpx.mvvm_architecture_compose.base.ui.component.LoadingWheel
+import com.thuanpx.mvvm_architecture_compose.base.ui.component.HandleBaseState
+import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red30
+import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
 
 /**
  * Created by ThuanPx on 5/20/22.
@@ -28,7 +27,7 @@ import com.thuanpx.mvvm_architecture_compose.base.ui.component.LoadingWheel
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: (name: String) -> Unit = {},
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val baseUiState: BaseUiState by viewModel.baseUiState.collectAsState()
@@ -46,40 +45,44 @@ fun HomeScreen(
     baseUiState: BaseUiState,
     modifier: Modifier = Modifier,
     homePokemonUiState: HomePokemonUiState,
-    onClick: () -> Unit = {},
+    onClick: (name: String) -> Unit = {},
 ) {
-    Scaffold(modifier = modifier) { innerPadding ->
-        AppGradientBackground {
-            when (baseUiState) {
-                is BaseUiState.Completed -> {
-                    LazyVerticalGrid(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(innerPadding),
-                        columns = GridCells.Fixed(2),
-                    ) {
-                        PokemonState(
-                            homePokemonUiState = homePokemonUiState,
-                            onClick = onClick
-                        )
-                    }
+    Scaffold(
+        topBar = {
+            CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
+                    containerColor = Red40
+                ),
+                title = {
+                    Text(text = "Android Architecture", color = Color.White)
                 }
-                is BaseUiState.Loading -> LoadingWheel(
+            )
+        },
+        modifier = modifier.windowInsetsPadding(
+            WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
+        ),
+    ) { innerPadding ->
+        AppGradientBackground {
+            if (baseUiState is BaseUiState.Completed) {
+                LazyVerticalGrid(
                     modifier = Modifier
                         .fillMaxSize()
-                        .wrapContentSize(),
-                    contentDesc = "Home"
-                )
-                is BaseUiState.Error -> {
-                    AppErrorAlertDialog(text = baseUiState.error.toString())
+                        .padding(innerPadding),
+                    columns = GridCells.Fixed(2),
+                ) {
+                    PokemonState(
+                        homePokemonUiState = homePokemonUiState, onClick = onClick
+                    )
                 }
+            } else {
+                baseUiState.HandleBaseState()
             }
         }
     }
 }
 
 private fun LazyGridScope.PokemonState(
-    homePokemonUiState: HomePokemonUiState, onClick: () -> Unit
+    homePokemonUiState: HomePokemonUiState, onClick: (name: String) -> Unit
 ) {
     when (homePokemonUiState) {
         is HomePokemonUiState.Empty -> {

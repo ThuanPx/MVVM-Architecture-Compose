@@ -31,7 +31,7 @@ fun AppNavHost(
     ) {
         homeGraph(
             onClickPokemonCard = {
-                navController.navigate(DetailDestination.route)
+                navController.navigate("${DetailDestination.route}/$it")
             }
         )
         favoriteGraph()

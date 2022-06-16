@@ -20,7 +20,10 @@ object RepositoryModule {
 
     @Singleton
     @Provides
-    fun provideAppRepository(apiService: ApiService, @IoDispatcher ioDispatcher: CoroutineDispatcher): AppRepository {
+    fun provideAppRepository(
+        apiService: ApiService,
+        @Dispatcher(AppDispatchers.IO) ioDispatcher: CoroutineDispatcher
+    ): AppRepository {
         return DefaultAppRepository(apiService, ioDispatcher)
     }
 }

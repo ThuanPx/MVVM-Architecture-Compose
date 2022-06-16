@@ -13,8 +13,10 @@ import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
@@ -35,7 +37,6 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun LoadingWheel(
-    contentDesc: String,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition()
@@ -88,10 +89,11 @@ fun LoadingWheel(
     // Draws out the LoadingWheel Canvas composable and sets the animations
     Canvas(
         modifier = modifier
+            .fillMaxSize()
+            .wrapContentSize()
             .size(48.dp)
             .padding(8.dp)
             .graphicsLayer { rotationZ = rotationAnim }
-            .semantics { contentDescription = contentDesc }
     ) {
         repeat(NUM_OF_LINES) { index ->
             rotate(degrees = index * 30f) {
@@ -121,7 +123,7 @@ fun LoadingWheel(
 fun LoadingWheelPreview() {
     AppTheme {
         Surface {
-            LoadingWheel(contentDesc = "LoadingWheel")
+            LoadingWheel()
         }
     }
 }

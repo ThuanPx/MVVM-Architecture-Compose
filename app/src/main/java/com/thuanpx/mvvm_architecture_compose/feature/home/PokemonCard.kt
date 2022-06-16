@@ -28,11 +28,11 @@ import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
 @Composable
 fun PokemonCard(
     pokemon: Pokemon,
-    onClick: () -> Unit,
+    onClick: (name: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     Card(
-        onClick = onClick,
+        onClick = { onClick.invoke(pokemon.name ?: "") },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         elevation = CardDefaults.cardElevation(5.dp),

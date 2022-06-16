@@ -13,6 +13,8 @@
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/teal_200</item>
+        <item name="android:statusBarColor">#680003</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.MVVMArchitectureCompose" parent="android:Theme.Material.Light.NoActionBar" />

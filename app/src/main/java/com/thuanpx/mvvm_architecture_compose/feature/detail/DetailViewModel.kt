@@ -1,10 +1,12 @@
-package com.thuanpx.mvvm_architecture_compose.feature.home
+package com.thuanpx.mvvm_architecture_compose.feature.detail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.viewModelScope
 import com.thuanpx.mvvm_architecture_compose.base.BaseViewModel
 import com.thuanpx.mvvm_architecture_compose.data.repository.AppRepository
 import com.thuanpx.mvvm_architecture_compose.di.AppDispatchers
 import com.thuanpx.mvvm_architecture_compose.di.Dispatcher
+import com.thuanpx.mvvm_architecture_compose.navigation.destination.DetailDestination
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -15,34 +17,32 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
- * Created by ThuanPx on 5/21/22.
+ * Created by ThuanPx on 6/15/22.
  */
 
 @HiltViewModel
-class HomeViewModel @Inject constructor (
+class DetailViewModel @Inject constructor(
     private val appRepository: AppRepository,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
-) : BaseViewModel() {
+    savedStateHandle: SavedStateHandle,
+): BaseViewModel() {
+
+    private val _detailUiState = MutableStateFlow<DetailUiState>(DetailUiState.Empty)
+    val detailUiState: StateFlow<DetailUiState> = _detailUiState.asStateFlow()
+
+    private val name: String = checkNotNull(savedStateHandle[DetailDestination.name])
 
     init {
-        fetchPokemons(1)
+        fetchDetailPokemon()
     }
 
-    private val _pageState = MutableStateFlow(1)
-    val pageState: StateFlow<Int> = _pageState.asStateFlow()
-
-    private val _homePokemonUiState = MutableStateFlow<HomePokemonUiState>(HomePokemonUiState.Empty)
-    val homePokemonUiState: StateFlow<HomePokemonUiState> = _homePokemonUiState.asStateFlow()
-
-
-    fun fetchPokemons(page: Int) {
+    fun fetchDetailPokemon() {
         viewModelScope.launch {
-            appRepository.fetchPokemon(page)
+            appRepository.fetchPokemonInfo(name)
                 .emitBaseState(ioDispatcher)
-                .collect { data ->
-                    _homePokemonUiState.update { HomePokemonUiState.Success(data.data) }
+                .collect { pokemon ->
+                    _detailUiState.update { DetailUiState.Success(pokemon) }
                 }
         }
     }
-
 }

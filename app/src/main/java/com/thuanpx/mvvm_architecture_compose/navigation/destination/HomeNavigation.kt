@@ -13,7 +13,7 @@ object HomeDestination: NavigationDestination {
     override val destination: String = "home_destination"
 }
 
-fun NavGraphBuilder.homeGraph(onClickPokemonCard: () -> Unit) {
+fun NavGraphBuilder.homeGraph(onClickPokemonCard: (name: String) -> Unit) {
     composable(route = HomeDestination.route) {
         HomeRoute(onClick = onClickPokemonCard)
     }

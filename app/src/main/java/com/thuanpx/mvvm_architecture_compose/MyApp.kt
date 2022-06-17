@@ -36,40 +36,26 @@ import com.thuanpx.mvvm_architecture_compose.navigation.TopLevelDestination
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 fun MyApp() {
-    AppTheme {
-        val appStateManager = rememberAppStateManager()
+    val appStateManager = rememberAppStateManager()
 
-        AppBackground {
-            Scaffold(
-                containerColor = Color.Transparent,
-                contentColor = MaterialTheme.colorScheme.onBackground,
-                bottomBar = {
-                    if (appStateManager.shouldShowBottomBar) {
-                        AppBottomBar(
-                            navigateToRoute = appStateManager.appTopLevelNavigation::navigateTo,
-                            currentRoute = appStateManager.currentRoute
-                        )
-                    }
-                }
-            ) {
-                Row(
-                    Modifier
-                        .fillMaxSize()
-                        .windowInsetsPadding(
-                            WindowInsets.safeDrawing.only(
-                                WindowInsetsSides.Horizontal
-                            )
-                        )
-                ) {
-                    AppNavHost(
-                        navController = appStateManager.navController,
-                        modifier = Modifier
-                            .padding(it)
-                            .consumedWindowInsets(it)
-                    )
-                }
+    Scaffold(
+        containerColor = Color.Transparent,
+        contentColor = MaterialTheme.colorScheme.onBackground,
+        bottomBar = {
+            if (appStateManager.shouldShowBottomBar) {
+                AppBottomBar(
+                    navigateToRoute = appStateManager.appTopLevelNavigation::navigateTo,
+                    currentRoute = appStateManager.currentRoute
+                )
             }
         }
+    ) {
+        AppNavHost(
+            navController = appStateManager.navController,
+            modifier = Modifier
+                .padding(it)
+                .consumedWindowInsets(it)
+        )
     }
 }
 

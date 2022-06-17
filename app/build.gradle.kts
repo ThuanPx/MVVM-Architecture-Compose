@@ -136,4 +136,6 @@ dependencies {
     implementation("com.jakewharton.timber:timber:5.0.1")
     // DataStore
     implementation("androidx.datastore:datastore-preferences:1.0.0")
+    // Paging
+    implementation("androidx.paging:paging-compose:1.0.0-alpha15")
 }

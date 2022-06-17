@@ -1,24 +1,24 @@
-@file:OptIn(ExperimentalMaterial3Api::class)
-
 package com.thuanpx.mvvm_architecture_compose.feature.home
 
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyGridScope
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.grid.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.paging.LoadState
+import androidx.paging.PagingData
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.HandleBaseState
-import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red30
+import com.thuanpx.mvvm_architecture_compose.base.ui.component.LoadingWheel
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
+import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Created by ThuanPx on 5/20/22.
@@ -34,19 +34,23 @@ fun HomeRoute(
     val homePokemonUiState: HomePokemonUiState by viewModel.homePokemonUiState.collectAsState()
     HomeScreen(
         baseUiState = baseUiState,
-        homePokemonUiState = homePokemonUiState,
         onClick = onClick,
         modifier = modifier,
+        pokemonPaging = viewModel.pokemonPaging,
+        homePokemonUiState = homePokemonUiState
     )
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     baseUiState: BaseUiState,
     modifier: Modifier = Modifier,
-    homePokemonUiState: HomePokemonUiState,
     onClick: (name: String) -> Unit = {},
+    homePokemonUiState: HomePokemonUiState,
+    pokemonPaging: Flow<PagingData<Pokemon>>
 ) {
+    val lazyPokemonItems = pokemonPaging.collectAsLazyPagingItems()
     Scaffold(
         topBar = {
             CenterAlignedTopAppBar(
@@ -63,19 +67,36 @@ fun HomeScreen(
         ),
     ) { innerPadding ->
         AppGradientBackground {
-            if (baseUiState is BaseUiState.Completed) {
-                LazyVerticalGrid(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    columns = GridCells.Fixed(2),
-                ) {
-                    PokemonState(
-                        homePokemonUiState = homePokemonUiState, onClick = onClick
-                    )
+            LazyVerticalGrid(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(innerPadding),
+                columns = GridCells.Fixed(2),
+            ) {
+                items(lazyPokemonItems.itemCount) {
+                    val pokemon = lazyPokemonItems[it] ?: return@items
+                    PokemonCard(pokemon = pokemon, onClick = onClick)
                 }
-            } else {
-                baseUiState.HandleBaseState()
+                lazyPokemonItems.apply {
+                    when {
+                        loadState.refresh is LoadState.Loading -> {
+                            item { LoadingWheel() }
+                            item { LoadingWheel() }
+                        }
+                        loadState.append is LoadState.Loading -> {
+                            item { LoadingWheel() }
+                            item { LoadingWheel() }
+                        }
+                        loadState.refresh is LoadState.Error -> {
+                            val e = lazyPokemonItems.loadState.refresh as LoadState.Error
+                            // TODO Error
+                        }
+                        loadState.append is LoadState.Error -> {
+                            val e = lazyPokemonItems.loadState.append as LoadState.Error
+                            // TODO Error
+                        }
+                    }
+                }
             }
         }
     }

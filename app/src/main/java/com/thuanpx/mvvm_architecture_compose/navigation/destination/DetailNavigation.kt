@@ -20,7 +20,7 @@ object DetailDestination : NavigationDestination {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun NavGraphBuilder.detailGraph() {
+fun NavGraphBuilder.detailGraph(onClickBack: () -> Unit) {
     composable(
         route = "${DetailDestination.route}/{${DetailDestination.name}}",
         arguments = listOf(
@@ -29,6 +29,6 @@ fun NavGraphBuilder.detailGraph() {
             }
         )
     ) {
-        DetailRoute()
+        DetailRoute(onClickBack = onClickBack)
     }
 }

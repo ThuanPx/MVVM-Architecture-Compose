@@ -35,6 +35,8 @@ fun AppNavHost(
             }
         )
         favoriteGraph()
-        detailGraph()
+        detailGraph {
+            navController.popBackStack()
+        }
     }
 }

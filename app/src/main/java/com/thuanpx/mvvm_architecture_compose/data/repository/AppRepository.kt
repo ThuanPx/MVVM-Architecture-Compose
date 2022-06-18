@@ -22,7 +22,8 @@ import javax.inject.Inject
 
 interface AppRepository {
     fun fetchPokemon(onStateLoad: (BaseUiState) -> Unit): Flow<PagingData<Pokemon>>
-    fun fetchPokemonInfo(query: String): Flow<PokemonInfo>
+    fun fetchPokemonInfo(name: String): Flow<PokemonInfo>
+    fun fetchPokemonColor(name: String): Flow<Any>
 }
 
 class DefaultAppRepository @Inject constructor(
@@ -37,7 +38,11 @@ class DefaultAppRepository @Inject constructor(
         ).flow
     }
 
-    override fun fetchPokemonInfo(query: String): Flow<PokemonInfo> {
-        return flow { emit(apiService.fetchPokemon(query).dataOrException()) }
+    override fun fetchPokemonInfo(name: String): Flow<PokemonInfo> {
+        return flow { emit(apiService.fetchPokemon(name).dataOrException()) }
+    }
+
+    override fun fetchPokemonColor(name: String): Flow<Any> {
+        return flow { emit(apiService.fetchPokemonColor(name).dataOrException()) }
     }
 }

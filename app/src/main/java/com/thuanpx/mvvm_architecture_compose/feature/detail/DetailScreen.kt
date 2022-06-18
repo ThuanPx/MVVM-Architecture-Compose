@@ -7,17 +7,22 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
+import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.HandleBaseState
+import com.thuanpx.mvvm_architecture_compose.base.ui.theme.AppTheme
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
+import com.thuanpx.mvvm_architecture_compose.model.entity.PokemonInfo
 
 /**
  * Created by ThuanPx on 5/20/22.
@@ -35,7 +40,6 @@ fun DetailRoute(
     DetailScreen(
         modifier = modifier,
         onClickBack = onClickBack,
-        viewModel = viewModel,
         baseUiState = baseUiState,
         detailUiState = detailUiState
     )
@@ -45,7 +49,6 @@ fun DetailRoute(
 @Composable
 fun DetailScreen(
     baseUiState: BaseUiState,
-    viewModel: DetailViewModel,
     detailUiState: DetailUiState,
     onClickBack: () -> Unit,
     modifier: Modifier,
@@ -94,6 +97,7 @@ private fun PokemonInfoState(
         is DetailUiState.Empty -> {}
         is DetailUiState.Success -> {
             Column(
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 AsyncImage(
                     model = ImageRequest.Builder(LocalContext.current)
@@ -101,10 +105,27 @@ private fun PokemonInfoState(
                         .crossfade(true)
                         .build(),
                     contentDescription = null,
-                    modifier = Modifier.size(50.dp)
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(20.dp)
                 )
-                Text(text = detailUiState.pokemonInfo.name ?: "")
             }
+        }
+    }
+}
+
+@Composable
+@Preview
+private fun PokemonInfoPreview() {
+    AppTheme(darkTheme = false) {
+        AppGradientBackground {
+            PokemonInfoState(
+                detailUiState = DetailUiState.Success(
+                    PokemonInfo(
+                        id = 184, name = "Salamence mega"
+                    )
+                )
+            )
         }
     }
 }

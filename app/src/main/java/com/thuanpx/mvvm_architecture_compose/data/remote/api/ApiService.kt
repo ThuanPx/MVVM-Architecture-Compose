@@ -21,4 +21,7 @@ interface ApiService {
 
     @GET("pokemon/{name}")
     suspend fun fetchPokemon(@Path("name") name: String): ApiResponse<PokemonInfo>
+
+    @GET("pokemon-color/{name}")
+    suspend fun fetchPokemonColor(@Path("name") name: String): ApiResponse<Any>
 }

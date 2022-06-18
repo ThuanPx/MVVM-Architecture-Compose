@@ -33,5 +33,8 @@ class HomeViewModel @Inject constructor(
     private val _homePokemonUiState = MutableStateFlow<HomePokemonUiState>(HomePokemonUiState.Empty)
     val homePokemonUiState: StateFlow<HomePokemonUiState> = _homePokemonUiState.asStateFlow()
 
+    private val _isRefreshing = MutableStateFlow(false)
+    val isRefreshing: StateFlow<Boolean> = _isRefreshing
+
     val pokemonPaging = appRepository.fetchPokemon {}.cachedIn(viewModelScope)
 }

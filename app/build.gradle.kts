@@ -86,7 +86,7 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.core:core-ktx:1.7.0")
+    implementation("androidx.core:core-ktx:1.8.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
     implementation("androidx.activity:activity-compose:1.4.0")
 
@@ -94,23 +94,25 @@ dependencies {
     implementation("androidx.activity:activity-compose:1.4.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
 
-    implementation("androidx.compose.runtime:runtime:1.2.0-beta02")
-    implementation("androidx.compose.runtime:runtime-livedata:1.2.0-beta02")
+    implementation("androidx.compose.runtime:runtime:1.2.0-rc01")
+    implementation("androidx.compose.runtime:runtime-livedata:1.2.0-rc01")
 
-    implementation("androidx.compose.animation:animation:1.2.0-beta02")
+    implementation("androidx.compose.animation:animation:1.2.0-rc01")
 
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("androidx.compose.ui:ui:1.2.0-beta02")
-    implementation("androidx.compose.ui:ui-util:1.2.0-beta02")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-beta02")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.2.0-beta02")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0-beta02")
+    implementation("androidx.compose.ui:ui:1.2.0-rc01")
+    implementation("androidx.compose.ui:ui-util:1.2.0-rc01")
+    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-rc01")
+    debugImplementation("androidx.compose.ui:ui-tooling:1.2.0-rc01")
+    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0-rc01")
 
-    implementation("androidx.compose.foundation:foundation:1.2.0-beta02")
-    implementation("androidx.compose.foundation:foundation-layout:1.2.0-beta02")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.11-rc")
+
+    implementation("androidx.compose.foundation:foundation:1.2.0-rc01")
+    implementation("androidx.compose.foundation:foundation-layout:1.2.0-rc01")
     // Material
-    implementation("androidx.compose.material3:material3:1.0.0-alpha12")
+    implementation("androidx.compose.material3:material3:1.0.0-alpha13")
     implementation("com.google.android.material:material:1.7.0-alpha02")
     // Navigation
     implementation("androidx.navigation:navigation-compose:2.4.2")
@@ -122,8 +124,8 @@ dependencies {
     implementation("com.google.dagger:hilt-android:2.42")
     kapt("com.google.dagger:hilt-android-compiler:2.42")
     // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.1")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.1")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
     // Retrofit
     implementation("com.squareup.retrofit2:retrofit:2.9.0")
     implementation("com.squareup.retrofit2:converter-gson:2.9.0")

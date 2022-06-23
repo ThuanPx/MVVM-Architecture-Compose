@@ -1,4 +1,4 @@
-package buildsrc
+package com.thuanpx.buildsrc
 
 object Versions {
     const val gradle = "7.2.1"

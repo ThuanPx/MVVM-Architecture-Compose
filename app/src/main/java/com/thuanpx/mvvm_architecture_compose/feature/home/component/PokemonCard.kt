@@ -1,4 +1,4 @@
-package com.thuanpx.mvvm_architecture_compose.feature.home
+package com.thuanpx.mvvm_architecture_compose.feature.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

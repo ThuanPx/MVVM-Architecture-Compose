@@ -1,4 +1,4 @@
-package buildsrc
+package com.thuanpx.buildsrc
 
 object Config {
     private const val versionMajor = 1
@@ -23,16 +23,17 @@ object Config {
     const val flavorDimensions = "default"
     val freeCompilerArgs = listOf(
         "-Xjvm-default=all",
-        "-Xopt-in=java.RequiresOptIn",
-        "-Xopt-in=java.Experimental",
-        "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-        "-Xopt-in=kotlinx.coroutines.InternalCoroutinesApi",
-        "-Xopt-in=kotlinx.coroutines.FlowPreview",
-        "-Xopt-in=androidx.compose.material.ExperimentalMaterialApi",
-        "-Xopt-in=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
-        "-Xopt-in=androidx.compose.animation.ExperimentalAnimationApi",
-        "-Xopt-in=ExperimentalMaterial3Api",
-        "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
+        "-opt-in=java.RequiresOptIn",
+        "-opt-in=java.Experimental",
+        "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        "-opt-in=kotlinx.coroutines.InternalCoroutinesApi",
+        "-opt-in=kotlinx.coroutines.FlowPreview",
+        "-opt-in=androidx.compose.material.ExperimentalMaterialApi",
+        "-opt-in=com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi",
+        "-opt-in=androidx.compose.animation.ExperimentalAnimationApi",
+        "-opt-in=ExperimentalMaterial3Api",
+        "-opt-in=kotlinx.serialization.ExperimentalSerializationApi",
+        "-opt-in=kotlin.RequiresOptIn"
     )
 
     object Release {

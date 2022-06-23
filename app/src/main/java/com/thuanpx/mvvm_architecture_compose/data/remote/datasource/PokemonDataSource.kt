@@ -12,10 +12,7 @@ import com.thuanpx.mvvm_architecture_compose.utils.coroutines.ApiResponse
  */
 class PokemonDataSource(
     private val apiService: ApiService,
-    private val onStateLoad: (BaseUiState) -> Unit
 ) : BaseDataSource<Pokemon>() {
-
-    override val stateLoad: (BaseUiState) -> Unit = onStateLoad
 
     override suspend fun requestMore(nextPage: Int): ApiResponse<BaseResponse<List<Pokemon>>> {
         return apiService.fetchPokemons(offset = nextPage * 20)

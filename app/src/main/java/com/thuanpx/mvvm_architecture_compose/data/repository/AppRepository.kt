@@ -3,7 +3,8 @@ package com.thuanpx.mvvm_architecture_compose.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
+import com.thuanpx.mvvm_architecture_compose.base.network.DataState
+import com.thuanpx.mvvm_architecture_compose.base.network.apiCall
 import com.thuanpx.mvvm_architecture_compose.data.remote.api.ApiService
 import com.thuanpx.mvvm_architecture_compose.data.remote.datasource.PokemonDataSource
 import com.thuanpx.mvvm_architecture_compose.di.AppDispatchers
@@ -11,7 +12,6 @@ import com.thuanpx.mvvm_architecture_compose.di.Dispatcher
 import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
 import com.thuanpx.mvvm_architecture_compose.model.entity.PokemonInfo
 import com.thuanpx.mvvm_architecture_compose.model.response.BaseResponse
-import com.thuanpx.mvvm_architecture_compose.utils.coroutines.ApiResponse
 import com.thuanpx.mvvm_architecture_compose.utils.coroutines.dataOrException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -23,8 +23,8 @@ import javax.inject.Inject
  */
 
 interface AppRepository {
-    fun fetchPokemon(onStateLoad: (BaseUiState) -> Unit): Flow<PagingData<Pokemon>>
-    fun fetchPokemonInfo(name: String): Flow<PokemonInfo>
+    fun fetchPokemon(): Flow<PagingData<Pokemon>>
+    fun fetchPokemonInfo(name: String): Flow<DataState<PokemonInfo>>
     fun fetchPokemonColor(name: String): Flow<Any>
     fun fetchPokemonList(offset: Int): Flow<BaseResponse<List<Pokemon>>>
 }
@@ -38,15 +38,15 @@ class DefaultAppRepository @Inject constructor(
         return flow { emit(apiService.fetchPokemons(offset = offset).dataOrException()) }
     }
 
-    override fun fetchPokemon(onStateLoad: (BaseUiState) -> Unit): Flow<PagingData<Pokemon>> {
+    override fun fetchPokemon(): Flow<PagingData<Pokemon>> {
         return Pager(
             config = PagingConfig(20, enablePlaceholders = false),
-            pagingSourceFactory = { PokemonDataSource(apiService, onStateLoad) }
+            pagingSourceFactory = { PokemonDataSource(apiService) }
         ).flow
     }
 
-    override fun fetchPokemonInfo(name: String): Flow<PokemonInfo> {
-        return flow { emit(apiService.fetchPokemon(name).dataOrException()) }
+    override fun fetchPokemonInfo(name: String): Flow<DataState<PokemonInfo>> {
+        return flow { emit(apiCall { apiService.fetchPokemon(name) }) }
     }
 
     override fun fetchPokemonColor(name: String): Flow<Any> {

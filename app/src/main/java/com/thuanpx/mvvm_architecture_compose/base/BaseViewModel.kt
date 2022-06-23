@@ -1,41 +1,67 @@
 package com.thuanpx.mvvm_architecture_compose.base
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.thuanpx.mvvm_architecture_compose.base.network.DataState
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.onCompletion
 import kotlinx.coroutines.flow.onStart
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import timber.log.Timber
 
 /**
  * Created by ThuanPx on 5/25/22.
  */
-open class BaseViewModel : ViewModel() {
-    protected val _baseUiState = MutableStateFlow<BaseUiState>(BaseUiState.Loading)
-    val baseUiState: StateFlow<BaseUiState> = _baseUiState.asStateFlow()
+abstract class BaseViewModel<S : BaseState<*>> : ViewModel() {
 
-    fun emitLoading() {
-        _baseUiState.update { BaseUiState.Loading }
+    private val _uiState = MutableStateFlow<BaseState<*>>(BaseState.Init)
+    val uiState = _uiState.asStateFlow()
+
+    private val handler = CoroutineExceptionHandler { _, exception ->
+        Timber.e(exception)
+        handleError(exception)
     }
 
-    fun emitError(error: Throwable) {
-        _baseUiState.update { BaseUiState.Error(error) }
+    open fun handleError(exception: Throwable) {
+        _uiState.value = BaseState.Error(exception)
     }
 
-    fun emitCompleted() {
-        _baseUiState.update { BaseUiState.Completed }
+    open fun startLoading() {
+        _uiState.value = BaseState.Loading
     }
 
-    protected fun <T> Flow<T>.emitBaseState(dispatcher: CoroutineDispatcher): Flow<T> {
-        return onStart { emitLoading() }
-            .onCompletion { emitCompleted() }
-            .catch { emitError(it) }
-            .flowOn(dispatcher)
+    protected fun setState(state: S) = viewModelScope {
+        _uiState.emit(state)
+    }
+
+    protected fun viewModelScope(block: suspend CoroutineScope.() -> Unit) {
+        viewModelScope.launch(context = handler, block = block)
+    }
+
+    protected fun <T> viewModelScope(
+        callFlow: Flow<DataState<T>>,
+        flowOn: CoroutineDispatcher,
+        collect: (collect: T) -> Unit = {}
+    ): Job {
+        return viewModelScope.launch(handler) {
+            callFlow
+                .onStart { startLoading() }
+                .catch { handleError(it) }
+                .flowOn(flowOn)
+                .collect { state ->
+                    when (state) {
+                        is DataState.Error -> handleError(state.error)
+                        is DataState.Success -> collect.invoke(state.result)
+                    }
+                }
+        }
     }
 
 }

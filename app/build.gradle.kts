@@ -1,4 +1,4 @@
-import buildsrc.*
+import com.thuanpx.buildsrc.*
 
 plugins {
     id("com.android.application")
@@ -10,7 +10,7 @@ plugins {
     id("kotlin-parcelize")
 }
 
-apply<codequality.DependencyUpdatePlugin>()
+apply<com.thuanpx.codequality.DependencyUpdatePlugin>()
 
 android {
     namespace = "com.thuanpx.mvvm_architecture_compose"
@@ -33,7 +33,6 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = false
-            applicationIdSuffix = ".dev"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 file("proguard-rules.pro")
@@ -42,6 +41,7 @@ android {
 
         }
         debug {
+            applicationIdSuffix = ".dev"
             buildConfigField("String", "END_POINT", "\"${Config.Debug.BaseUrl}\"")
         }
     }

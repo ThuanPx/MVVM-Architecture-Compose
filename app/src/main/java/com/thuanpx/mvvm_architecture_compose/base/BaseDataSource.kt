@@ -1,6 +1,5 @@
 package com.thuanpx.mvvm_architecture_compose.base
 
-import androidx.lifecycle.MutableLiveData
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.thuanpx.mvvm_architecture_compose.model.response.BaseResponse
@@ -8,7 +7,9 @@ import com.thuanpx.mvvm_architecture_compose.utils.coroutines.ApiResponse
 import com.thuanpx.mvvm_architecture_compose.utils.coroutines.exceptions.ErrorResponse
 import com.thuanpx.mvvm_architecture_compose.utils.coroutines.suspendOnSuccessAutoError
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import retrofit2.HttpException
 import java.io.IOException
 
@@ -21,8 +22,6 @@ abstract class BaseDataSource<T : Any> : PagingSource<Int, T>() {
     companion object {
         private const val STARTING_PAGE_INDEX = 0
     }
-
-    abstract val stateLoad: (BaseUiState) -> Unit
 
     abstract suspend fun requestMore(nextPage: Int): ApiResponse<BaseResponse<List<T>>>
 
@@ -46,8 +45,6 @@ abstract class BaseDataSource<T : Any> : PagingSource<Int, T>() {
                         nextKey = if (items.isNotEmpty()) pageNumber + 1 else null
                     }
             }
-                .onStart { stateLoad.invoke(BaseUiState.Loading) }
-                .onCompletion { stateLoad.invoke(BaseUiState.Completed) }
                 .flowOn(Dispatchers.IO)
                 .collect()
 

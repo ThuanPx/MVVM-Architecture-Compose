@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
+import com.thuanpx.mvvm_architecture_compose.base.BaseState
 import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
@@ -23,6 +24,7 @@ import com.thuanpx.mvvm_architecture_compose.base.ui.component.HandleBaseState
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.AppTheme
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
 import com.thuanpx.mvvm_architecture_compose.model.entity.PokemonInfo
+import com.thuanpx.mvvm_architecture_compose.utils.extension.cast
 
 /**
  * Created by ThuanPx on 5/20/22.
@@ -35,23 +37,21 @@ fun DetailRoute(
     onClickBack: () -> Unit,
     viewModel: DetailViewModel = hiltViewModel()
 ) {
-    val baseUiState: BaseUiState by viewModel.baseUiState.collectAsState()
-    val detailUiState: DetailUiState by viewModel.detailUiState.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+
     DetailScreen(
         modifier = modifier,
         onClickBack = onClickBack,
-        baseUiState = baseUiState,
-        detailUiState = detailUiState
+        uiState = uiState
     )
 }
 
 @ExperimentalMaterial3Api
 @Composable
 fun DetailScreen(
-    baseUiState: BaseUiState,
-    detailUiState: DetailUiState,
     onClickBack: () -> Unit,
     modifier: Modifier,
+    uiState: BaseState<*>
 ) {
     Scaffold(
         topBar = {
@@ -80,37 +80,33 @@ fun DetailScreen(
         AppGradientBackground(
             modifier = Modifier.padding(innerPadding)
         ) {
-            if (baseUiState is BaseUiState.Completed) {
-                PokemonInfoState(detailUiState = detailUiState)
-            } else {
-                baseUiState.HandleBaseState()
+            when (uiState) {
+                is BaseState.Data -> {
+                    val pokemonInfo = uiState.cast<BaseState.Data<DetailState>>().value.pokemonInfo
+                    PokemonInfoView(pokemonInfo = pokemonInfo ?: return@AppGradientBackground)
+                }
             }
         }
     }
 }
 
 @Composable
-private fun PokemonInfoState(
-    detailUiState: DetailUiState
+private fun PokemonInfoView(
+    pokemonInfo: PokemonInfo
 ) {
-    when (detailUiState) {
-        is DetailUiState.Empty -> {}
-        is DetailUiState.Success -> {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                AsyncImage(
-                    model = ImageRequest.Builder(LocalContext.current)
-                        .data(detailUiState.pokemonInfo.getImageUrl())
-                        .crossfade(true)
-                        .build(),
-                    contentDescription = null,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(20.dp)
-                )
-            }
-        }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(pokemonInfo.getImageUrl())
+                .crossfade(true)
+                .build(),
+            contentDescription = null,
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(20.dp)
+        )
     }
 }
 
@@ -119,11 +115,9 @@ private fun PokemonInfoState(
 private fun PokemonInfoPreview() {
     AppTheme(darkTheme = false) {
         AppGradientBackground {
-            PokemonInfoState(
-                detailUiState = DetailUiState.Success(
-                    PokemonInfo(
-                        id = 184, name = "Salamence mega"
-                    )
+            PokemonInfoView(
+                PokemonInfo(
+                    id = 184, name = "Salamence mega"
                 )
             )
         }

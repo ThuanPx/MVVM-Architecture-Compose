@@ -1,7 +1,9 @@
-package codeanalyzetools
+package com.thuanpx.codeanalyzetools
 
 import com.github.benmanes.gradle.versions.VersionsPlugin
 import com.github.benmanes.gradle.versions.updates.DependencyUpdatesTask
+import org.gradle.kotlin.dsl.apply
+import org.gradle.kotlin.dsl.named
 
 apply<VersionsPlugin>()
 

@@ -10,6 +10,8 @@ import com.thuanpx.mvvm_architecture_compose.di.AppDispatchers
 import com.thuanpx.mvvm_architecture_compose.di.Dispatcher
 import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
 import com.thuanpx.mvvm_architecture_compose.model.entity.PokemonInfo
+import com.thuanpx.mvvm_architecture_compose.model.response.BaseResponse
+import com.thuanpx.mvvm_architecture_compose.utils.coroutines.ApiResponse
 import com.thuanpx.mvvm_architecture_compose.utils.coroutines.dataOrException
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +26,17 @@ interface AppRepository {
     fun fetchPokemon(onStateLoad: (BaseUiState) -> Unit): Flow<PagingData<Pokemon>>
     fun fetchPokemonInfo(name: String): Flow<PokemonInfo>
     fun fetchPokemonColor(name: String): Flow<Any>
+    fun fetchPokemonList(offset: Int): Flow<BaseResponse<List<Pokemon>>>
 }
 
 class DefaultAppRepository @Inject constructor(
     private val apiService: ApiService,
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher
 ) : AppRepository {
+
+    override fun fetchPokemonList(offset: Int): Flow<BaseResponse<List<Pokemon>>> {
+        return flow { emit(apiService.fetchPokemons(offset = offset).dataOrException()) }
+    }
 
     override fun fetchPokemon(onStateLoad: (BaseUiState) -> Unit): Flow<PagingData<Pokemon>> {
         return Pager(

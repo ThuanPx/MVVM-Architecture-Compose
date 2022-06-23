@@ -1,5 +1,6 @@
+import buildsrc.*
+
 plugins {
-//    id("org.jetbrains.kotlin.android")
     id("com.android.application")
     kotlin("android")
     kotlin("kapt")
@@ -9,48 +10,39 @@ plugins {
     id("kotlin-parcelize")
 }
 
+apply<codequality.DependencyUpdatePlugin>()
+
 android {
     namespace = "com.thuanpx.mvvm_architecture_compose"
-    compileSdk = 32
-    buildToolsVersion = "30.0.3"
-    flavorDimensions += "default"
+    compileSdk = Config.compileSdk
+    buildToolsVersion = Config.buildToolsVersion
+    flavorDimensions += Config.flavorDimensions
 
     defaultConfig {
-        applicationId = "com.thuanpx.mvvm_architecture_compose"
-        minSdk = 24
-        targetSdk = 32
-        versionCode = 1
-        versionName = "1.0"
+        applicationId = Config.applicationId
+        minSdk = Config.minSdk
+        targetSdk = Config.targetSdk
+        versionCode = Config.versionCode
+        versionName = Config.versionName
         vectorDrawables {
             useSupportLibrary = true
         }
     }
 
-    productFlavors {
-        create("dev") {
-            applicationIdSuffix = ".dev"
-            versionCode = 1
-            versionName = "1.0.0"
-
-            buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
-        }
-
-        create("prod") {
-            versionCode = 1
-            versionName = "1.0.0"
-
-            buildConfigField("String", "END_POINT", "\"https://pokeapi.co/api/v2/\"")
-        }
-    }
-
     buildTypes {
-        getByName("release") {
+        release {
             isMinifyEnabled = true
             isShrinkResources = false
+            applicationIdSuffix = ".dev"
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 file("proguard-rules.pro")
             )
+            buildConfigField("String", "END_POINT", "\"${Config.Release.BaseUrl}\"")
+
+        }
+        debug {
+            buildConfigField("String", "END_POINT", "\"${Config.Debug.BaseUrl}\"")
         }
     }
 
@@ -59,25 +51,14 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        freeCompilerArgs = freeCompilerArgs + listOf(
-            "-Xopt-in=kotlin.RequiresOptIn",
-            // Enable experimental coroutines APIs, including Flow
-            "-Xopt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-            "-Xopt-in=kotlinx.coroutines.FlowPreview",
-            "-Xopt-in=kotlin.Experimental",
-            "-Xopt-in=ExperimentalMaterial3Api",
-            // Enable experimental kotlinx serialization APIs
-            "-Xopt-in=kotlinx.serialization.ExperimentalSerializationApi"
-        )
-
-        // Set JVM target to 1.8
+        freeCompilerArgs = Config.freeCompilerArgs
         jvmTarget = JavaVersion.VERSION_1_8.toString()
     }
     buildFeatures {
         compose = true
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0-beta02"
+        kotlinCompilerExtensionVersion = Versions.compose
     }
     packagingOptions {
         resources.excludes.add("/META-INF/{AL2.0,LGPL2.1}")
@@ -86,58 +67,50 @@ android {
 
 dependencies {
     implementation(fileTree(mapOf("dir" to "libs", "include" to listOf("*.jar"))))
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.1")
-    implementation("androidx.activity:activity-compose:1.4.0")
+    implementation(SupportLib.CoreKtx)
 
-    // Compose
-    implementation("androidx.activity:activity-compose:1.4.0")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.4.1")
+    implementation(LifecycleLib.ViewModelCompose)
+    implementation(LifecycleLib.LifecycleRuntime)
 
-    implementation("androidx.compose.runtime:runtime:1.2.0-rc01")
-    implementation("androidx.compose.runtime:runtime-livedata:1.2.0-rc01")
+    implementation(ComposeLib.activityCompose)
+    implementation(ComposeLib.runtime)
+    implementation(ComposeLib.runtimeLiveData)
+    implementation(ComposeLib.animation)
+    implementation(ComposeLib.constraintLayout)
+    implementation(ComposeLib.ui)
+    implementation(ComposeLib.uiUtil)
+    implementation(ComposeLib.preview)
+    implementation(ComposeLib.foundation)
+    implementation(ComposeLib.foundationLayout)
+    implementation(ComposeLib.material3)
+    implementation(ComposeLib.paging)
+    debugImplementation(ComposeLib.tooling)
+    debugImplementation(ComposeLib.manifest)
 
-    implementation("androidx.compose.animation:animation:1.2.0-rc01")
+    implementation(AccompanistLib.swipeRefresh)
 
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
-    implementation("androidx.compose.ui:ui:1.2.0-rc01")
-    implementation("androidx.compose.ui:ui-util:1.2.0-rc01")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.2.0-rc01")
-    debugImplementation("androidx.compose.ui:ui-tooling:1.2.0-rc01")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.2.0-rc01")
+    implementation(MaterialLib.material)
 
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.24.11-rc")
+    implementation(NavigationLib.navigation)
 
-    implementation("androidx.compose.foundation:foundation:1.2.0-rc01")
-    implementation("androidx.compose.foundation:foundation-layout:1.2.0-rc01")
-    // Material
-    implementation("androidx.compose.material3:material3:1.0.0-alpha13")
-    implementation("com.google.android.material:material:1.7.0-alpha02")
-    // Navigation
-    implementation("androidx.navigation:navigation-compose:2.4.2")
+    implementation(CoilLib.coil)
+    implementation(CoilLib.coilSvg)
 
-    // Coil
-    implementation("io.coil-kt:coil-compose:2.1.0")
-    implementation("io.coil-kt:coil-svg:2.1.0")
-    // Hilt
-    implementation("com.google.dagger:hilt-android:2.42")
-    kapt("com.google.dagger:hilt-android-compiler:2.42")
-    // Coroutines
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.2")
-    // Retrofit
-    implementation("com.squareup.retrofit2:retrofit:2.9.0")
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
-    // Okhttp
-    implementation("com.squareup.okhttp3:okhttp:4.9.3")
-    implementation("com.squareup.okhttp3:logging-interceptor:4.9.3")
-    // Gson
-    implementation("com.google.code.gson:gson:2.9.0")
-    // Timber
-    implementation("com.jakewharton.timber:timber:5.0.1")
-    // DataStore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
-    // Paging
-    implementation("androidx.paging:paging-compose:1.0.0-alpha15")
+    implementation(HiltLib.android)
+    implementation(HiltLib.compose)
+    kapt(HiltLib.compiler)
+
+    implementation(CoroutinesLib.coroutinesCore)
+    implementation(CoroutinesLib.coroutinesAndroid)
+
+    implementation(RetrofitLib.retrofit)
+    implementation(RetrofitLib.retrofitConverterGson)
+
+    implementation(OkhttpLib.okhttp)
+    implementation(OkhttpLib.okhttpLogging)
+
+    implementation(StorageLib.datastorePref)
+
+    implementation(OtherLib.timber)
+    implementation(OtherLib.gson)
 }

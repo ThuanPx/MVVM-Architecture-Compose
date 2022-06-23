@@ -1,5 +1,8 @@
 package com.thuanpx.mvvm_architecture_compose.feature.home
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
@@ -32,9 +35,42 @@ class HomeViewModel @Inject constructor(
 
     private val _homePokemonUiState = MutableStateFlow<HomePokemonUiState>(HomePokemonUiState.Empty)
     val homePokemonUiState: StateFlow<HomePokemonUiState> = _homePokemonUiState.asStateFlow()
+    private var offset = 0
+    private var pokemonList = mutableListOf<Pokemon>()
+
+    var index = 0
+    var offsetList = 0
 
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing: StateFlow<Boolean> = _isRefreshing
 
     val pokemonPaging = appRepository.fetchPokemon {}.cachedIn(viewModelScope)
+
+    init {
+        onLoadMore(false)
+    }
+
+    fun onLoadMore(isLoadMore: Boolean = true) {
+        viewModelScope.launch {
+            appRepository.fetchPokemonList(offset)
+                .onStart {
+                    _homePokemonUiState.update {
+                        HomePokemonUiState.Loading
+                    }
+                }
+                .catch { error ->
+                    _homePokemonUiState.update {
+                        HomePokemonUiState.Error(error = error)
+                    }
+                }
+                .collect { data ->
+                    offset += 20
+                    pokemonList.addAll(data.data)
+                    _homePokemonUiState.update {
+                        HomePokemonUiState.PokemonUiState(pokemons = pokemonList)
+                    }
+                }
+        }
+    }
 }
+

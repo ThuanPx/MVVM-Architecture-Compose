@@ -15,11 +15,13 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
+import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppErrorAlertDialog
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.HandleBaseState
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.LoadingWheel
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
 import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
+import com.thuanpx.mvvm_architecture_compose.utils.handler.LoadMoreHandler
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -34,12 +36,22 @@ fun HomeRoute(
 ) {
     val baseUiState: BaseUiState by viewModel.baseUiState.collectAsState()
     val isRefreshing by viewModel.isRefreshing.collectAsState()
+    val homePokemonUiState: HomePokemonUiState by viewModel.homePokemonUiState.collectAsState()
+    val listState: LazyGridState = rememberLazyGridState()
+//    LaunchedEffect(key1 = listState.isScrollInProgress) {
+//        if (!listState.isScrollInProgress) {
+//            viewModel.index = listState.firstVisibleItemIndex
+//            viewModel.offsetList = listState.firstVisibleItemScrollOffset
+//        }
+//    }
     HomeScreen(
         isRefreshing = isRefreshing,
         onClick = onClick,
         modifier = modifier,
         pokemonPaging = viewModel.pokemonPaging,
-        viewModel = viewModel
+        viewModel = viewModel,
+        homePokemonUiState = homePokemonUiState,
+        listState = listState
     )
 }
 
@@ -50,7 +62,9 @@ fun HomeScreen(
     modifier: Modifier = Modifier,
     onClick: (name: String) -> Unit = {},
     pokemonPaging: Flow<PagingData<Pokemon>>,
-    viewModel: HomeViewModel
+    viewModel: HomeViewModel,
+    homePokemonUiState: HomePokemonUiState,
+    listState: LazyGridState,
 ) {
     val lazyPokemonItems = pokemonPaging.collectAsLazyPagingItems()
     Scaffold(
@@ -73,33 +87,32 @@ fun HomeScreen(
                 state = rememberSwipeRefreshState(isRefreshing = isRefreshing),
                 onRefresh = { lazyPokemonItems.refresh() }
             ) {
-                LazyVerticalGrid(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(innerPadding),
-                    columns = GridCells.Fixed(2),
-                ) {
-                    items(lazyPokemonItems.itemCount) {
-                        val pokemon = lazyPokemonItems[it] ?: return@items
-                        PokemonCard(pokemon = pokemon, onClick = onClick)
+                when (homePokemonUiState) {
+                    is HomePokemonUiState.Error -> {
+                        AppErrorAlertDialog(text = homePokemonUiState.error.toString())
                     }
-                    lazyPokemonItems.apply {
-                        when {
-                            loadState.refresh is LoadState.Loading -> {
+                    is HomePokemonUiState.PokemonUiState -> {
+                        LazyVerticalGrid(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .padding(innerPadding),
+                            columns = GridCells.Fixed(2),
+                            state = listState
+                        ) {
+                            items(
+                                homePokemonUiState.pokemons,
+                                key = { item -> item.name ?: "" }) { item ->
+                                PokemonCard(pokemon = item, onClick = onClick)
+                            }
+                            if (homePokemonUiState.isLoading || homePokemonUiState.isLoadingMore) {
                                 item { LoadingWheel() }
                                 item { LoadingWheel() }
                             }
-                            loadState.append is LoadState.Loading -> {
-                                item { LoadingWheel() }
-                                item { LoadingWheel() }
-                            }
-                            loadState.refresh is LoadState.Error -> {
-                                val e = lazyPokemonItems.loadState.refresh as LoadState.Error
-                                // TODO Error
-                            }
-                            loadState.append is LoadState.Error -> {
-                                val e = lazyPokemonItems.loadState.append as LoadState.Error
-                                // TODO Error
+                        }
+
+                        if (homePokemonUiState.pokemons.isNotEmpty()) {
+                            LoadMoreHandler(listState) {
+                                viewModel.onLoadMore()
                             }
                         }
                     }
@@ -109,17 +122,17 @@ fun HomeScreen(
     }
 }
 
-private fun LazyGridScope.PokemonState(
-    homePokemonUiState: HomePokemonUiState, onClick: (name: String) -> Unit
-) {
-    when (homePokemonUiState) {
-        is HomePokemonUiState.Empty -> {
-
-        }
-        is HomePokemonUiState.Success -> {
-            items(homePokemonUiState.pokemons) { itemPokemon ->
-                PokemonCard(pokemon = itemPokemon, onClick = onClick)
-            }
-        }
-    }
-}
+//private fun LazyGridScope.PokemonState(
+//    homePokemonUiState: HomePokemonUiState, onClick: (name: String) -> Unit
+//) {
+//    when (homePokemonUiState) {
+//        is HomePokemonUiState.Empty -> {
+//
+//        }
+//        is HomePokemonUiState.Success -> {
+//            items(homePokemonUiState.pokemons) { itemPokemon ->
+//                PokemonCard(pokemon = itemPokemon, onClick = onClick)
+//            }
+//        }
+//    }
+//}

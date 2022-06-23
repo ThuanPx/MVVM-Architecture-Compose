@@ -120,7 +120,7 @@ fun LoadingWheel(
     uiMode = Configuration.UI_MODE_NIGHT_YES,
 )
 @Composable
-fun LoadingWheelPreview() {
+private fun LoadingWheelPreview() {
     AppTheme {
         Surface {
             LoadingWheel()

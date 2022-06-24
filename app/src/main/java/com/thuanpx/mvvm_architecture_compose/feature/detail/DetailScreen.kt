@@ -17,10 +17,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.thuanpx.mvvm_architecture_compose.base.BaseState
-import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
-import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
-import com.thuanpx.mvvm_architecture_compose.base.ui.component.HandleBaseState
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.AppTheme
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
 import com.thuanpx.mvvm_architecture_compose.model.entity.PokemonInfo

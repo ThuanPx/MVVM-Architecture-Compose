@@ -1,7 +1,6 @@
 package com.thuanpx.mvvm_architecture_compose.data.remote.datasource
 
 import com.thuanpx.mvvm_architecture_compose.base.BaseDataSource
-import com.thuanpx.mvvm_architecture_compose.base.BaseUiState
 import com.thuanpx.mvvm_architecture_compose.data.remote.api.ApiService
 import com.thuanpx.mvvm_architecture_compose.model.entity.Pokemon
 import com.thuanpx.mvvm_architecture_compose.model.response.BaseResponse

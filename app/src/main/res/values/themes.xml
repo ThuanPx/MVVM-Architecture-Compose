@@ -18,4 +18,9 @@
     </style>
 
     <style name="Theme.MVVMArchitectureCompose" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="SplashScreenTheme" parent="Theme.MyApp">
+        <item name="android:windowBackground">@drawable/ic_android</item>
+    </style>
+
 </resources>

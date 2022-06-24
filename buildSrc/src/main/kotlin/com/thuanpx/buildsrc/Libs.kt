@@ -18,6 +18,7 @@ object Versions {
     const val timer = "5.0.1"
     const val gson = "2.9.0"
     const val hilt = "2.42"
+    const val splash = "1.0.0-beta02"
 }
 
 object ClassPath {
@@ -30,13 +31,12 @@ object OtherLib {
     val timber by lazy { "com.jakewharton.timber:timber:${Versions.timer}" }
     val gson by lazy { "com.google.code.gson:gson:${Versions.gson}" }
     val versionChecker by lazy { "com.github.ben-manes:gradle-versions-plugin:${Versions.versionChecker}" }
+    val appcompat by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
+    val splashScreen by lazy { "androidx.core:core-splashscreen:${Versions.splash}" }
 }
 
 object SupportLib {
     const val CoreKtx = "androidx.core:core-ktx:${Versions.coreKtx}"
-    const val Appcompat = "androidx.appcompat:appcompat:${Versions.appCompat}"
-
-    const val Splashscreen = "androidx.core:core-splashscreen:1.0.0-beta02"
 }
 
 object LifecycleLib {

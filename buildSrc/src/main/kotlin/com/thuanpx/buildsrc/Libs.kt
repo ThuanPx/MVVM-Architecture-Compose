@@ -19,6 +19,7 @@ object Versions {
     const val gson = "2.9.0"
     const val hilt = "2.42"
     const val splash = "1.0.0-beta02"
+    const val palette = "1.0.0"
 }
 
 object ClassPath {
@@ -33,6 +34,7 @@ object OtherLib {
     val versionChecker by lazy { "com.github.ben-manes:gradle-versions-plugin:${Versions.versionChecker}" }
     val appcompat by lazy { "androidx.appcompat:appcompat:${Versions.appCompat}" }
     val splashScreen by lazy { "androidx.core:core-splashscreen:${Versions.splash}" }
+    val palette by lazy { "androidx.palette:palette-ktx:${Versions.palette}" }
 }
 
 object SupportLib {
@@ -83,7 +85,6 @@ object OkhttpLib {
     val okhttpLogging by lazy { "com.squareup.okhttp3:logging-interceptor:${Versions.okhttp}" }
 }
 
-
 object MaterialLib {
     const val material = "com.google.android.material:material:${Versions.material}"
 }
@@ -99,13 +100,13 @@ object NavigationLib {
 object AccompanistLib {
     const val swipeRefresh =
         "com.google.accompanist:accompanist-swiperefresh:${Versions.accompanist}"
-    const val systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:0.23.1"
-    const val insets = "com.google.accompanist:accompanist-insets:0.23.1"
-    const val placeholderMaterial = "com.google.accompanist:accompanist-placeholder-material:0.23.1"
-    const val navigationMaterial = "com.google.accompanist:accompanist-navigation-material:0.23.1"
-    const val permissions = "com.google.accompanist:accompanist-permissions:0.23.1"
-    const val pager = "com.google.accompanist:accompanist-pager:0.23.1"
-    const val indicators = "com.google.accompanist:accompanist-pager-indicators:0.23.1"
+    const val systemuicontroller = "com.google.accompanist:accompanist-systemuicontroller:${Versions.accompanist}"
+    const val insets = "com.google.accompanist:accompanist-insets:${Versions.accompanist}"
+    const val placeholderMaterial = "com.google.accompanist:accompanist-placeholder-material:${Versions.accompanist}"
+    const val navigationMaterial = "com.google.accompanist:accompanist-navigation-material:${Versions.accompanist}"
+    const val permissions = "com.google.accompanist:accompanist-permissions:${Versions.accompanist}"
+    const val pager = "com.google.accompanist:accompanist-pager:${Versions.accompanist}"
+    const val indicators = "com.google.accompanist:accompanist-pager-indicators:${Versions.accompanist}"
     const val webview = "com.google.accompanist:accompanist-webview:0.24.6-alpha"
 }
 

@@ -114,4 +114,5 @@ dependencies {
     implementation(OtherLib.timber)
     implementation(OtherLib.gson)
     implementation(OtherLib.splashScreen)
+    implementation(OtherLib.palette)
 }

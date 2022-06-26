@@ -21,6 +21,7 @@ class HomeViewModel @Inject constructor(
     @Dispatcher(AppDispatchers.IO) private val ioDispatcher: CoroutineDispatcher,
 ) : BaseViewModel<BaseState<HomeState>>() {
 
+
     init {
         fetchPokemonList()
     }

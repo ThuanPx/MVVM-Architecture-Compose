@@ -15,9 +15,10 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
 import com.thuanpx.mvvm_architecture_compose.base.BaseState
-import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppGradientBackground
+import com.thuanpx.mvvm_architecture_compose.base.ui.component.AppBackground
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.EmptyView
 import com.thuanpx.mvvm_architecture_compose.base.ui.component.LoadingWheel
+import com.thuanpx.mvvm_architecture_compose.base.ui.theme.DarkGreenGray10
 import com.thuanpx.mvvm_architecture_compose.base.ui.theme.Red40
 import com.thuanpx.mvvm_architecture_compose.feature.home.component.PokemonCard
 import com.thuanpx.mvvm_architecture_compose.utils.extension.cast
@@ -66,7 +67,7 @@ private fun HomeScreen(
             WindowInsets.safeDrawing.only(WindowInsetsSides.Top)
         ),
     ) { innerPadding ->
-        AppGradientBackground {
+        AppBackground(color = DarkGreenGray10) {
             when (uiState) {
                 is BaseState.Data -> {
                     val homeState = uiState.cast<BaseState.Data<HomeState>>().value

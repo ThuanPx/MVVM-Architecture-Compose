@@ -32,9 +32,9 @@ import kotlin.math.tan
 @Composable
 fun AppBackground(
     modifier: Modifier = Modifier,
+    color: Color = LocalBackgroundTheme.current.color,
     content: @Composable () -> Unit
 ) {
-    val color = LocalBackgroundTheme.current.color
     val tonalElevation = LocalBackgroundTheme.current.tonalElevation
     Surface(
         color = if (color == Color.Unspecified) Color.Transparent else color,

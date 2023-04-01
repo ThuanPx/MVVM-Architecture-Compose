@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import com.thuanpx.mvvm_compose.core.PhoneDevicePreviews
-import com.thuanpx.mvvm_compose.core.navigation.AppComposeNavigator
-import com.thuanpx.mvvm_compose.core.navigation.ComposeNavigatorDefault
 import com.thuanpx.mvvm_compose.designsystem.component.AppBackground
 import com.thuanpx.mvvm_compose.designsystem.theme.AppTheme
 
@@ -17,7 +14,12 @@ import com.thuanpx.mvvm_compose.designsystem.theme.AppTheme
  */
 
 @Composable
-fun HomeScreen(appComposeNavigator: AppComposeNavigator) {
+fun HomeRoute() {
+  HomeScreen()
+}
+
+@Composable
+fun HomeScreen() {
   AppBackground {
     Box(modifier = Modifier.fillMaxSize()) {
       Scaffold(modifier = Modifier.fillMaxSize()) { padding ->
@@ -31,6 +33,6 @@ fun HomeScreen(appComposeNavigator: AppComposeNavigator) {
 @Composable
 fun PreviewHomeScreen() {
   AppTheme {
-    HomeScreen(appComposeNavigator = ComposeNavigatorDefault())
+    HomeScreen()
   }
 }

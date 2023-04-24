@@ -20,6 +20,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.thuanpx.mvvm_compose.R
 import com.thuanpx.mvvm_compose.core.PhoneDevicePreviews
+import com.thuanpx.mvvm_compose.core.navigation.AppDestination
 import com.thuanpx.mvvm_compose.designsystem.theme.AppTheme
 import kotlinx.coroutines.delay
 
@@ -29,52 +30,52 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun SplashRoute(
-  onNextScreen: () -> Unit,
+    navigator: (destination: AppDestination) -> Unit
 ) {
-  SplashScreen(
-    onNextScreen = onNextScreen,
-  )
+    SplashScreen(
+        navigator = navigator,
+    )
 }
 
 @Composable
 fun SplashScreen(
-  onNextScreen: () -> Unit,
+    navigator: (destination: AppDestination) -> Unit,
 ) {
-  var isShow by remember { mutableStateOf(true) }
-  LaunchedEffect(key1 = Unit, block = {
-    delay(1_000)
-    isShow = false
-    delay(500)
-    onNextScreen()
-  })
-  Scaffold { padding ->
-    Box(
-      modifier = Modifier
-        .fillMaxSize()
-        .padding(padding)
-    ) {
-      AnimatedVisibility(
-        visible = isShow,
-        exit = fadeOut(),
-        modifier = Modifier
-          .align(Alignment.Center)
-      ) {
-        Image(
-          painter = painterResource(id = R.mipmap.ic_launcher_foreground),
-          contentDescription = null,
-          modifier = Modifier
-            .size(200.dp)
-        )
-      }
+    var isShow by remember { mutableStateOf(true) }
+    LaunchedEffect(key1 = Unit, block = {
+        delay(1_000)
+        isShow = false
+        delay(500)
+        navigator(AppDestination.Home)
+    })
+    Scaffold { padding ->
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(padding)
+        ) {
+            AnimatedVisibility(
+                visible = isShow,
+                exit = fadeOut(),
+                modifier = Modifier
+                    .align(Alignment.Center)
+            ) {
+                Image(
+                    painter = painterResource(id = R.mipmap.ic_launcher_foreground),
+                    contentDescription = null,
+                    modifier = Modifier
+                        .size(200.dp)
+                )
+            }
+        }
     }
-  }
 }
 
 @PhoneDevicePreviews
 @Composable
 fun PreviewLoginScreen() {
-  AppTheme {
-    SplashRoute {}
-  }
+    AppTheme {
+        SplashRoute {}
+    }
 }
 

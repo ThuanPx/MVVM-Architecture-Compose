@@ -1,18 +1,18 @@
 [versions]
-accompanist = "0.28.0"
+accompanist = "0.30.1"
 androidGradlePlugin = "7.3.1"
-androidxActivity = "1.7.0"
+androidxActivity = "1.7.1"
 androidxAppCompat = "1.6.1"
 androidxBrowser = "1.5.0"
-androidxComposeBom = "2023.03.00"
-androidxComposeCompiler = "1.4.4"
+androidxComposeBom = "2023.04.01"
+androidxComposeCompiler = "1.4.6"
 androidxComposeRuntimeTracing = "1.0.0-alpha03"
-androidxCore = "1.9.0"
-androidxCoreSplashscreen = "1.0.0"
+androidxCore = "1.10.0"
+androidxCoreSplashscreen = "1.0.1"
 androidxDataStore = "1.0.0"
 androidxHiltNavigationCompose = "1.0.0"
 androidxLifecycle = "2.6.1"
-androidxMacroBenchmark = "1.2.0-alpha12"
+androidxMacroBenchmark = "1.2.0-alpha13"
 androidxNavigation = "2.5.3"
 androidxProfileinstaller = "1.3.0"
 androidxTestRules = "1.5.0"
@@ -21,12 +21,15 @@ androidxTracing = "1.1.0"
 androidxUiAutomator = "2.2.0"
 androidxWindowManager = "1.0.0"
 androidxWork = "2.7.1"
+androidxPagingCompose = "1.0.0-alpha18"
+androidxPagingRuntime = "3.1.1"
+androidxSecurity = "1.0.0"
 coil = "2.3.0"
 hilt = "2.44.2"
 hiltExt = "1.0.0"
 jacoco = "0.8.7"
 junit4 = "4.13.2"
-kotlin = "1.8.10"
+kotlin = "1.8.20"
 kotlinxCoroutines = "1.6.4"
 kotlinxDatetime = "0.4.0"
 kotlinxSerializationJson = "1.5.0"
@@ -38,6 +41,7 @@ room = "2.6.0-alpha01"
 secrets = "2.0.1"
 timber = "5.0.1"
 moshi = "1.14.0"
+chucker = "3.5.2"
 
 [libraries]
 accompanist-flowlayout = { group = "com.google.accompanist", name = "accompanist-flowlayout", version.ref = "accompanist" }
@@ -73,6 +77,9 @@ androidx-navigation-compose = { group = "androidx.navigation", name = "navigatio
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "androidxTestRunner" }
 androidx-test-uiautomator = { group = "androidx.test.uiautomator", name = "uiautomator", version.ref = "androidxUiAutomator" }
 androidx-profileinstaller = { group = "androidx.profileinstaller", name = "profileinstaller", version.ref = "androidxProfileinstaller" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "androidxPagingCompose" }
+androidx-paging-runtime = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidxPagingRuntime" }
+androidx-security = { group = "androidx.security", name = "security-crypto", version.ref = "androidxSecurity" }
 coil-kt = { group = "io.coil-kt", name = "coil", version.ref = "coil" }
 coil-kt-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }
 coil-kt-svg = { group = "io.coil-kt", name = "coil-svg", version.ref = "coil" }
@@ -97,6 +104,8 @@ room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "
 timber = { group = "com.jakewharton.timber", name = "timber", version.ref = "timber"}
 moshi = { group = "com.squareup.moshi", name = "moshi", version.ref = "moshi"}
 moshi-kotlin = { group = "com.squareup.moshi", name = "moshi-kotlin", version.ref = "moshi"}
+chucker-library = { group = "com.github.chuckerteam.chucker", name = "library", version.ref = "chucker"}
+chucker-library-no-op = { group = "com.github.chuckerteam.chucker", name = "library-no-op", version.ref = "chucker"}
 
 # Dependencies of the included build-logic
 android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "androidGradlePlugin" }

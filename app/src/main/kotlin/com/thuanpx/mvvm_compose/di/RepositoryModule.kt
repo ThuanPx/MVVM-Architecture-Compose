@@ -22,8 +22,7 @@ object RepositoryModule {
     @Provides
     fun provideAppRepository(
         apiService: ApiService,
-        @IoDispatcher ioDispatcher: CoroutineDispatcher
     ): AppRepository {
-        return DefaultAppRepository(apiService, ioDispatcher)
+        return DefaultAppRepository(apiService)
     }
 }

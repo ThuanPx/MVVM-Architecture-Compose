@@ -18,13 +18,21 @@ android {
         }
     }
 
+    buildFeatures {
+        buildConfig = true
+    }
+
     buildTypes {
+        debug {
+            buildConfigField("String", "BASE_API_URL", "\"https://pokeapi.co/api/v2/\"")
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 file("proguard-rules.pro")
             )
+            buildConfigField("String", "BASE_API_URL", "\"https://pokeapi.co/api/v2/\"")
         }
       create("benchmark") {
         signingConfig = signingConfigs.getByName("debug")
@@ -48,4 +56,9 @@ dependencies {
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.moshi)
     implementation(libs.okhttp.logging)
+    implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.paging.runtime)
+    debugImplementation(libs.chucker.library)
+    releaseImplementation(libs.chucker.library.no.op)
+    implementation(libs.androidx.security)
 }

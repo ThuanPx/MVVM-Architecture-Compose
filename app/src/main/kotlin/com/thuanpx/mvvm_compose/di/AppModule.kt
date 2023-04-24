@@ -19,8 +19,6 @@ object AppModule {
     @Singleton
     @Provides
     fun provideMoshi(): Moshi {
-        return Moshi.Builder()
-            .addLast(KotlinJsonAdapterFactory())
-            .build()
+        return MoshiBuilderProvider.moshiBuilder.build()
     }
 }

@@ -1,4 +1,3 @@
-@file:Suppress("UnstableApiUsage")
 pluginManagement {
     includeBuild("build-logic")
     repositories {
@@ -18,6 +17,6 @@ dependencyResolutionManagement {
     }
 }
 
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 rootProject.name = "MVVM-Architecture-Compose"
 include(":app")
-include(":macrobenchmark")

@@ -10,7 +10,6 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import com.squareup.moshi.Moshi
 import com.thuanpx.mvvm_compose.data.local.datastore.PreferenceDataStore
 import com.thuanpx.mvvm_compose.data.local.datastore.PreferenceDataStoreDefault
-import com.thuanpx.mvvm_compose.data.local.sharedpreferences.EncryptedSharedPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,12 +44,6 @@ object StorageModule {
         moshi: Moshi
     ): PreferenceDataStore {
         return PreferenceDataStoreDefault(dataStore, moshi)
-    }
-
-    @Provides
-    @Singleton
-    fun provideSecuredLocalStorage(@ApplicationContext context: Context): EncryptedSharedPreferences {
-        return EncryptedSharedPreferences(context)
     }
 
 }

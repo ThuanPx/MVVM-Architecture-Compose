@@ -10,8 +10,6 @@ android {
 
     defaultConfig {
         applicationId = "com.thuanpx.mvvm_compose"
-        versionCode = 1
-        versionName = "1.0"
 
         vectorDrawables {
             useSupportLibrary = true
@@ -40,6 +38,7 @@ android {
         isDebuggable = false
       }
     }
+
     packagingOptions {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
@@ -60,5 +59,4 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     debugImplementation(libs.chucker.library)
     releaseImplementation(libs.chucker.library.no.op)
-    implementation(libs.androidx.security)
 }

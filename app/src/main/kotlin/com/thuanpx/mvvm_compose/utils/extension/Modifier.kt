@@ -1,6 +1,8 @@
 package com.thuanpx.mvvm_compose.utils.extension
 
 import androidx.compose.ui.Modifier
+import kotlin.contracts.InvocationKind
+import kotlin.contracts.contract
 
 /**
  * Created by ThuanPx on 31/03/2023.
@@ -9,6 +11,7 @@ import androidx.compose.ui.Modifier
 /**
  * https://medium.com/@aris.kotsomitopoulos/multiple-conditional-modifier-in-jetpack-compose-fe6c18ad359
  */
+
 fun Modifier.thenIf(condition: Boolean, modifier: Modifier.() -> Modifier) =
   if (condition) {
     then(modifier(Modifier))
@@ -29,3 +32,12 @@ fun Modifier.thenIf(
   } else {
     this
   }
+
+
+inline fun <T> T.applyIf(condition: Boolean, run: T.() -> T): T {
+  return if (condition) run() else this
+}
+
+inline fun <T> T.applyIf(conditionBuilder: (receiver: T) -> Boolean, run: T.() -> T): T {
+  return if (conditionBuilder(this)) run() else this
+}

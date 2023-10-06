@@ -1,10 +1,7 @@
 import com.android.build.api.dsl.CommonExtension
-import org.gradle.api.JavaVersion
+import com.thuanpx.ApplicationConstants
 import org.gradle.api.Project
-import org.gradle.api.artifacts.VersionCatalogsExtension
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.kotlin.dsl.dependencies
-import org.gradle.kotlin.dsl.getByType
 import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
@@ -15,15 +12,15 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = 33
+        compileSdk = ApplicationConstants.CompileSdk
 
         defaultConfig {
-            minSdk = 24
+            minSdk = ApplicationConstants.MinSdk
         }
 
         compileOptions {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
+            sourceCompatibility = ApplicationConstants.JavaVersion
+            targetCompatibility = ApplicationConstants.JavaVersion
         }
 
         kotlinOptions {
@@ -45,8 +42,8 @@ internal fun Project.configureKotlinAndroid(
 
             )
 
-            // Set JVM target to 1.8
-            jvmTarget = JavaVersion.VERSION_1_8.toString()
+            jvmTarget = ApplicationConstants.JavaVersion.toString()
+
         }
     }
 }

@@ -24,7 +24,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object StorageModule {
 
-    private const val DATA_STORE_FILE_NAME = "scanner_prefs.pb"
+    private const val DATA_STORE_FILE_NAME = "app_prefs.pb"
 
     @Singleton
     @Provides

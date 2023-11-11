@@ -24,7 +24,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.thuanpx.mvvm_compose.designsystem.component.AppButton
 import com.thuanpx.mvvm_compose.designsystem.component.AppIconButton
 import com.thuanpx.mvvm_compose.designsystem.component.AppIconToggleButton
@@ -39,14 +38,6 @@ import com.thuanpx.mvvm_compose.designsystem.theme.AppTheme
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun DesignSystemCatalogApp() {
-    val systemUiController = rememberSystemUiController()
-    DisposableEffect(systemUiController) {
-        systemUiController.setSystemBarsColor(
-            color = Color.White,
-            darkIcons = true
-        )
-        onDispose {}
-    }
     AppTheme {
         Surface {
             LazyColumn(

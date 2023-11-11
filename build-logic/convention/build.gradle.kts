@@ -27,17 +27,9 @@ gradlePlugin {
             id = "android.application"
             implementationClass = "AndroidApplicationConventionPlugin"
         }
-        register("androidApplicationCompose") {
-            id = "android.application.compose"
-            implementationClass = "AndroidComposeConventionPlugin"
-        }
         register("androidHilt") {
             id = "android.hilt"
             implementationClass = "AndroidHiltConventionPlugin"
-        }
-        register("androidDependency") {
-            id = "android.dependency"
-            implementationClass = "AndroidDependencyConventionPlugin"
         }
     }
 }

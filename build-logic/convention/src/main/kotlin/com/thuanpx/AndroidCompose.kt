@@ -38,17 +38,11 @@ internal fun Project.configureAndroidCompose(
         }
 
         composeOptions {
-            kotlinCompilerExtensionVersion = libs.findVersion("androidxComposeCompiler").get().toString()
+            kotlinCompilerExtensionVersion = libs.findVersion("composeCompiler").get().toString()
         }
 
         kotlinOptions {
             freeCompilerArgs = freeCompilerArgs + buildComposeMetricsParameters()
-        }
-
-        dependencies {
-            val bom = libs.findLibrary("androidx-compose-bom").get()
-            add("implementation", platform(bom))
-            add("androidTestImplementation", platform(bom))
         }
     }
 }

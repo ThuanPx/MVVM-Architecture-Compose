@@ -19,9 +19,9 @@ class App : Application(), ImageLoaderFactory {
     }
 
     private fun configTimber() {
-//        if (BuildConfig.DEBUG) {
-//            Timber.plant(Timber.DebugTree())
-//        }
+        if (BuildConfig.DEBUG) {
+            Timber.plant(Timber.DebugTree())
+        }
     }
 
     /**

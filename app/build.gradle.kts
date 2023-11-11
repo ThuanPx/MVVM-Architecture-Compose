@@ -1,8 +1,6 @@
 plugins {
     id("android.application")
-    id("android.application.compose")
-    id("android.hilt")
-    id("android.dependency")
+    id("com.google.devtools.ksp").version(libs.versions.ksp)
 }
 
 android {
@@ -47,16 +45,53 @@ android {
 }
 
 dependencies {
-    implementation(libs.accompanist.systemuicontroller)
+    implementation(platform(libs.compose.bom))
+    implementation(libs.compose.ui.util)
+    implementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui.tooling.preview)
+    implementation(libs.compose.runtime)
+    implementation(libs.compose.foundation)
+    implementation(libs.compose.foundation.layout)
+    implementation(libs.compose.material)
+    implementation(libs.compose.material3)
 
-    implementation(libs.androidx.dataStore.preferences)
+    implementation(libs.coil.kt)
+    implementation(libs.coil.kt.compose)
+    implementation(libs.coil.kt.svg)
+
+    implementation(libs.kotlinx.coroutines.android)
+
+    implementation(libs.hilt.android)
+    implementation(libs.hilt.navigation.compose)
+    kapt(libs.hilt.compiler)
+
+    implementation(libs.dataStore.preferences)
+
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
+
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.converter.moshi)
+
     implementation(libs.okhttp.logging)
+
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.paging.runtime)
+
     debugImplementation(libs.chucker.library)
     releaseImplementation(libs.chucker.library.no.op)
+
+    implementation(libs.timber)
+
+    implementation(libs.navigation.compose)
+
+    implementation(libs.lifecycle.runtime.compose)
+    implementation(libs.lifecycle.viewModel.compose)
+
+    implementation(libs.androidx.core.ktx)
+    implementation(libs.androidx.core.splashscreen)
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.activity.compose)
+
+
 }

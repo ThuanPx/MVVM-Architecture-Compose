@@ -1,8 +1,7 @@
 import com.android.build.api.dsl.CommonExtension
-import com.thuanpx.ApplicationConstants
+import com.thuanpx.Configuration
 import org.gradle.api.Project
 import org.gradle.api.plugins.ExtensionAware
-import org.gradle.kotlin.dsl.provideDelegate
 import org.jetbrains.kotlin.gradle.dsl.KotlinJvmOptions
 
 /**
@@ -12,37 +11,22 @@ internal fun Project.configureKotlinAndroid(
     commonExtension: CommonExtension<*, *, *, *, *>,
 ) {
     commonExtension.apply {
-        compileSdk = ApplicationConstants.CompileSdk
+        compileSdk = Configuration.compileSdk
 
         defaultConfig {
-            minSdk = ApplicationConstants.MinSdk
+            minSdk = Configuration.minSdk
         }
 
         compileOptions {
-            sourceCompatibility = ApplicationConstants.JavaVersion
-            targetCompatibility = ApplicationConstants.JavaVersion
+            sourceCompatibility = Configuration.javaVersion
+            targetCompatibility = Configuration.javaVersion
         }
 
         kotlinOptions {
-            // Treat all Kotlin warnings as errors (disabled by default)
-            // Override by setting warningsAsErrors=true in your ~/.gradle/gradle.properties
-            val warningsAsErrors: String? by project
-            allWarningsAsErrors = warningsAsErrors.toBoolean()
+            allWarningsAsErrors = false
 
-            freeCompilerArgs = freeCompilerArgs + listOf(
-                "-opt-in=kotlin.RequiresOptIn",
-                // Enable experimental coroutines APIs, including Flow
-                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
-                "-opt-in=kotlinx.coroutines.FlowPreview",
-                "-opt-in=kotlin.Experimental",
-                // Enable experimental compose APIs
-                "-opt-in=androidx.compose.material3.ExperimentalMaterial3Api",
-                "-opt-in=androidx.lifecycle.compose.ExperimentalLifecycleComposeApi",
-
-            )
-
-            jvmTarget = ApplicationConstants.JavaVersion.toString()
+            freeCompilerArgs = freeCompilerArgs + Configuration.freeCompilerArgs
+            jvmTarget = Configuration.javaVersion.toString()
 
         }
     }

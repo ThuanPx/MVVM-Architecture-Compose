@@ -1,8 +1,14 @@
 package com.thuanpx.mvvm_compose.designsystem.theme
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 
 private val LightColorScheme = lightColorScheme(
@@ -27,4 +33,21 @@ fun AppTheme(
         typography = Typography,
         content = content
     )
+}
+
+@Composable
+fun AppThemePreview(
+    content: @Composable ColumnScope.() -> Unit
+) {
+    AppTheme {
+        Box(
+            modifier = Modifier
+                .background(color = Color.White),
+            contentAlignment = Alignment.Center
+        ) {
+            Column {
+                content()
+            }
+        }
+    }
 }

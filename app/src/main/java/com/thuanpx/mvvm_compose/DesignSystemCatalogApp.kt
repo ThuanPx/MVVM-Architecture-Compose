@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeContentPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -39,165 +40,164 @@ import com.thuanpx.mvvm_compose.designsystem.theme.AppTheme
 @Composable
 fun DesignSystemCatalogApp() {
     AppTheme {
-        Surface {
-            LazyColumn(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = 8.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-            ) {
-                item {
-                    Text(
-                        text = "Design System Catalog",
-                        style = MaterialTheme.typography.headlineSmall,
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(horizontal = 8.dp)
+                .safeContentPadding(),
+            verticalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            item {
+                Text(
+                    text = "Design System Catalog",
+                    style = MaterialTheme.typography.headlineSmall,
+                )
+            }
+            item { Text("Enabled Buttons", Modifier.padding(top = 16.dp)) }
+            item {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    AppButton(
+                        onClick = {},
+                        buttonType = ButtonType.Filled
+                    ) {
+                        Text(text = "Enabled")
+                    }
+                    AppButton(
+                        onClick = {},
+                        buttonType = ButtonType.Outlined
+                    ) {
+                        Text(text = "Enabled")
+                    }
+                    AppButton(
+                        onClick = {},
+                        buttonType = ButtonType.Text
+                    ) {
+                        Text(text = "Enabled")
+                    }
+                }
+            }
+            item { Text("Disabled Buttons", Modifier.padding(top = 16.dp)) }
+            item {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    AppButton(
+                        onClick = {},
+                        buttonType = ButtonType.Filled,
+                        enabled = false
+                    ) {
+                        Text(text = "Disabled")
+                    }
+                    AppButton(
+                        onClick = {},
+                        buttonType = ButtonType.Outlined,
+                        enabled = false
+                    ) {
+                        Text(text = "Disabled")
+                    }
+                    AppButton(
+                        onClick = {},
+                        buttonType = ButtonType.Text,
+                        enabled = false
+                    ) {
+                        Text(text = "Disabled")
+                    }
+                }
+            }
+            item { Text("Icon Toggle buttons", Modifier.padding(top = 16.dp)) }
+            item {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    var firstChecked by remember { mutableStateOf(false) }
+                    AppIconToggleButton(
+                        checked = firstChecked,
+                        onCheckedChange = { checked -> firstChecked = checked },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.FavoriteBorder,
+                                contentDescription = null,
+                            )
+                        },
+                        checkedIcon = {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+                    var secondChecked by remember { mutableStateOf(true) }
+                    AppIconToggleButton(
+                        checked = secondChecked,
+                        onCheckedChange = { checked -> secondChecked = checked },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.FavoriteBorder,
+                                contentDescription = null,
+                            )
+                        },
+                        checkedIcon = {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = null,
+                            )
+                        },
+                    )
+                    AppIconToggleButton(
+                        checked = false,
+                        onCheckedChange = {},
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.FavoriteBorder,
+                                contentDescription = null,
+                            )
+                        },
+                        checkedIcon = {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = null,
+                            )
+                        },
+                        enabled = false,
+                    )
+                    AppIconToggleButton(
+                        checked = true,
+                        onCheckedChange = {},
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Outlined.FavoriteBorder,
+                                contentDescription = null,
+                            )
+                        },
+                        checkedIcon = {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = null,
+                            )
+                        },
+                        enabled = false,
                     )
                 }
-                item { Text("Enabled Buttons", Modifier.padding(top = 16.dp)) }
-                item {
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        AppButton(
-                            onClick = {},
-                            buttonType = ButtonType.Filled
-                        ) {
-                            Text(text = "Enabled")
-                        }
-                        AppButton(
-                            onClick = {},
-                            buttonType = ButtonType.Outlined
-                        ) {
-                            Text(text = "Enabled")
-                        }
-                        AppButton(
-                            onClick = {},
-                            buttonType = ButtonType.Text
-                        ) {
-                            Text(text = "Enabled")
-                        }
+            }
+            item { Text("Icon buttons", Modifier.padding(top = 16.dp)) }
+            item {
+                FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    AppIconButton(onClick = { }) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = null
+                        )
                     }
-                }
-                item { Text("Disabled Buttons", Modifier.padding(top = 16.dp)) }
-                item {
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        AppButton(
-                            onClick = {},
-                            buttonType = ButtonType.Filled,
-                            enabled = false
-                        ) {
-                            Text(text = "Disabled")
-                        }
-                        AppButton(
-                            onClick = {},
-                            buttonType = ButtonType.Outlined,
-                            enabled = false
-                        ) {
-                            Text(text = "Disabled")
-                        }
-                        AppButton(
-                            onClick = {},
-                            buttonType = ButtonType.Text,
-                            enabled = false
-                        ) {
-                            Text(text = "Disabled")
-                        }
-                    }
-                }
-                item { Text("Icon Toggle buttons", Modifier.padding(top = 16.dp)) }
-                item {
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        var firstChecked by remember { mutableStateOf(false) }
-                        AppIconToggleButton(
-                            checked = firstChecked,
-                            onCheckedChange = { checked -> firstChecked = checked },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
-                                    contentDescription = null,
-                                )
-                            },
-                            checkedIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = null,
-                                )
-                            },
-                        )
-                        var secondChecked by remember { mutableStateOf(true) }
-                        AppIconToggleButton(
-                            checked = secondChecked,
-                            onCheckedChange = { checked -> secondChecked = checked },
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
-                                    contentDescription = null,
-                                )
-                            },
-                            checkedIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = null,
-                                )
-                            },
-                        )
-                        AppIconToggleButton(
-                            checked = false,
-                            onCheckedChange = {},
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
-                                    contentDescription = null,
-                                )
-                            },
-                            checkedIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = null,
-                                )
-                            },
-                            enabled = false,
-                        )
-                        AppIconToggleButton(
-                            checked = true,
-                            onCheckedChange = {},
-                            icon = {
-                                Icon(
-                                    imageVector = Icons.Outlined.FavoriteBorder,
-                                    contentDescription = null,
-                                )
-                            },
-                            checkedIcon = {
-                                Icon(
-                                    imageVector = Icons.Filled.Favorite,
-                                    contentDescription = null,
-                                )
-                            },
-                            enabled = false,
+                    AppIconButton(
+                        onClick = { },
+                        enabled = false
+                    ) {
+                        Icon(
+                            imageVector = Icons.Outlined.Notifications,
+                            contentDescription = null
                         )
                     }
                 }
-                item { Text("Icon buttons", Modifier.padding(top = 16.dp)) }
-                item {
-                    FlowRow(horizontalArrangement = Arrangement.spacedBy(16.dp)) {
-                        AppIconButton(onClick = { }) {
-                            Icon(
-                                imageVector = Icons.Outlined.Notifications,
-                                contentDescription = null
-                            )
-                        }
-                        AppIconButton(
-                            onClick = { },
-                            enabled = false
-                        ) {
-                            Icon(
-                                imageVector = Icons.Outlined.Notifications,
-                                contentDescription = null
-                            )
-                        }
-                    }
-                }
-                item { Text("Loading", Modifier.padding(top = 16.dp)) }
-                item {
-                    AppLoadingWheel(contentDesc = "")
-                }
+            }
+            item { Text("Loading", Modifier.padding(top = 16.dp)) }
+            item {
+                AppLoadingWheel(contentDesc = "")
             }
         }
     }

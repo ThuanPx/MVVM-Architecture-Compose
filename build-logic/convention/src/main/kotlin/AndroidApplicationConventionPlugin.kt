@@ -14,9 +14,7 @@
  *   limitations under the License.
  */
 
-import com.android.build.api.dsl.ApplicationExtension
-import com.thuanpx.Configuration
-import com.thuanpx.configureAndroidCompose
+import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import org.gradle.api.Plugin
 import org.gradle.api.Project
 import org.gradle.kotlin.dsl.configure
@@ -27,15 +25,10 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
             with(pluginManager) {
                 apply("com.android.application")
                 apply("org.jetbrains.kotlin.android")
-                apply("kotlin-parcelize")
-                apply("dagger.hilt.android.plugin")
-                apply("org.jetbrains.kotlin.kapt")
             }
 
-            extensions.configure<ApplicationExtension> {
+            extensions.configure<BaseAppModuleExtension> {
                 configureKotlinAndroid(this)
-                configureAndroidCompose(this)
-                defaultConfig.targetSdk = Configuration.targetSdk
             }
         }
     }

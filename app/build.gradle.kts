@@ -1,6 +1,10 @@
 plugins {
     id("android.application")
-    id("com.google.devtools.ksp").version(libs.versions.ksp)
+    id("android.compose")
+    id("android.hilt")
+    id("kotlin-parcelize")
+    id("dagger.hilt.android.plugin")
+    id("com.google.devtools.ksp")
 }
 
 android {
@@ -63,7 +67,7 @@ dependencies {
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
-    kapt(libs.hilt.compiler)
+    ksp(libs.hilt.compiler)
 
     implementation(libs.dataStore.preferences)
 
@@ -93,5 +97,9 @@ dependencies {
     implementation(libs.androidx.appcompat)
     implementation(libs.androidx.activity.compose)
 
+}
 
+if (file("google-services.json").exists()) {
+    apply(plugin = libs.plugins.gms.googleServices.get().pluginId)
+    apply(plugin = libs.plugins.firebase.crashlytics.get().pluginId)
 }
